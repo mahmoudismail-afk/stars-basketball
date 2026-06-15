@@ -385,7 +385,7 @@ export default function BookingPage() {
               {[
                 ['Court',    court?.name ?? '—'],
                 ['Date',     selectedDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })],
-                ['Time',     `${formatTime12h(selectedStartTime)} – ${formatTime12h(selectedEndTime)}`],
+                ['Time',     `${formatTime12h(selectedStartTime || '')} – ${formatTime12h(selectedEndTime || '')}`],
                 ['Duration', `${duration} min`],
               ].map(([k, v]) => (
                 <div key={k} className="success-row">
