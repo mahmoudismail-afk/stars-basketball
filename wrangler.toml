@@ -1,6 +1,7 @@
 name = "stars-website"
 compatibility_date = "2024-03-20"
 pages_build_output_dir = ".vercel/output/static"
+compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
 binding = "DB"
