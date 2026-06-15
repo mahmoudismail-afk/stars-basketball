@@ -1,17 +1,24 @@
 // Simple authentication check
 function isAuthenticated(request: Request, env: any) {
   const authHeader = request.headers.get('authorization');
-  if (!authHeader || !authHeader.startsWith('Basic ')) return false;
+  if (!authHeader) return false;
   
-  const base64Credentials = authHeader.split(' ')[1];
-  const credentials = atob(base64Credentials);
-  const [username, password] = credentials.split(':');
+  let password = '';
   
-  // Only accept 'admin' as username, and match against env.ADMIN_PASSWORD if available
+  if (authHeader.startsWith('Bearer ')) {
+    password = authHeader.split(' ')[1];
+  } else if (authHeader.startsWith('Basic ')) {
+    const base64Credentials = authHeader.split(' ')[1];
+    const credentials = atob(base64Credentials);
+    password = credentials.split(':')[1];
+  } else {
+    return false;
+  }
+  
   // Fallback to 'stars' if no env var is set
   const expectedPassword = env && env.ADMIN_PASSWORD ? env.ADMIN_PASSWORD : 'stars';
     
-  return username === 'admin' && password === expectedPassword;
+  return password === expectedPassword;
 }
 
 export async function onRequestGet(context: any) {
@@ -22,7 +29,6 @@ export async function onRequestGet(context: any) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
       headers: {
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
         'Content-Type': 'application/json'
       }
     });
@@ -40,42 +46,40 @@ export async function onRequestGet(context: any) {
     return Response.json({ error: 'Database error' }, { status: 500 });
   }
 
-  // Fallback for local testing
   return Response.json([]);
 }
 
-export async function onRequestPatch(context: any) {
+export async function onRequestDelete(context: any) {
   const { request, env } = context;
 
   if (!isAuthenticated(request, env)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
       headers: {
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
         'Content-Type': 'application/json'
       }
     });
   }
 
   try {
-    const body = await request.json() as any;
-    const { id, status } = body;
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
 
-    if (!id || !status) {
-      return Response.json({ error: 'Missing id or status' }, { status: 400 });
+    if (!id) {
+      return Response.json({ error: 'Missing id' }, { status: 400 });
     }
 
     if (env.DB) {
       await env.DB.prepare('UPDATE bookings SET status = ? WHERE id = ?')
-        .bind(status, id)
+        .bind('cancelled', id)
         .run();
         
-      return Response.json({ success: true, id, status });
+      return Response.json({ success: true, id, status: 'cancelled' });
     }
     
-    return Response.json({ success: true, id, status });
+    return Response.json({ success: true, id, status: 'cancelled' });
   } catch (error) {
-    console.error('Admin PATCH error:', error);
+    console.error('Admin DELETE error:', error);
     return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
