@@ -7,7 +7,7 @@ import { getRequestContext } from '@cloudflare/next-on-pages';
 function getCloudflareDB(): any | null {
   try {
     const ctx = getRequestContext();
-    if (ctx && ctx.env && ctx.env.DB) return ctx.env.DB;
+    if (ctx && ctx.env && (ctx.env as any).DB) return (ctx.env as any).DB;
   } catch { /* noop */ }
   
   try {
