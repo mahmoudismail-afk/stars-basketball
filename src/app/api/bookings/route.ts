@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 // In-memory store for local Next.js dev (replaced by D1 on Cloudflare)
 if (!(globalThis as any).localBookings) {
   (globalThis as any).localBookings = [];

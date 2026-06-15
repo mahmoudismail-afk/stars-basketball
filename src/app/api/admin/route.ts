@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 function getCloudflareDB(): any | null {
   try {
     if (typeof (globalThis as any).DB !== 'undefined') {
