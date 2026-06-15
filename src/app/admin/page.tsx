@@ -28,7 +28,7 @@ export default function AdminPage() {
 
   // Load password from session storage on mount
   useEffect(() => {
-    fetch('/api/courts').then(r => r.json()).then(setCourts).catch(() => {});
+    fetch('/api/courts').then(r => r.json()).then((data: any) => setCourts(data)).catch(() => {});
     
     const saved = sessionStorage.getItem('admin_token');
     if (saved) {
