@@ -38,7 +38,8 @@ export default function AdminPage() {
     setLoading(true); setError(null);
     try {
       const res = await fetch('/api/admin', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}` },
+        cache: 'no-store'
       });
       const data = await res.json() as any;
       if (res.status === 401) {

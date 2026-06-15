@@ -29,24 +29,30 @@ export async function onRequestGet(context: any) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
       }
     });
   }
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+  };
 
   try {
     if (env.DB) {
       const { results } = await env.DB.prepare(
         'SELECT id, court_id, player_name, player_phone, date, start_time, end_time, duration, status, created_at FROM bookings ORDER BY date DESC, start_time DESC'
       ).all();
-      return Response.json(results);
+      return new Response(JSON.stringify(results), { headers });
     }
   } catch (error) {
     console.error('Admin GET error:', error);
-    return Response.json({ error: 'Database error' }, { status: 500 });
+    return new Response(JSON.stringify({ error: 'Database error' }), { status: 500, headers });
   }
 
-  return Response.json([]);
+  return new Response(JSON.stringify([]), { headers });
 }
 
 export async function onRequestDelete(context: any) {

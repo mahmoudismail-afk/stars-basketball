@@ -9,6 +9,11 @@ export async function onRequestGet(context: any) {
   const date = url.searchParams.get('date');
   const courtId = url.searchParams.get('courtId');
 
+  const headers = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+  };
+
   try {
     if (env.DB) {
       let query = 'SELECT id, court_id, date, start_time, end_time, duration, status FROM bookings WHERE status = ?';
@@ -18,14 +23,14 @@ export async function onRequestGet(context: any) {
       query += ' ORDER BY start_time ASC';
 
       const { results } = await env.DB.prepare(query).bind(...params).all();
-      return Response.json(results);
+      return new Response(JSON.stringify(results), { headers });
     }
   } catch (error) {
     console.error('D1 GET error:', error);
-    return Response.json({ error: 'Database error' }, { status: 500 });
+    return new Response(JSON.stringify({ error: 'Database error' }), { status: 500, headers });
   }
 
-  return Response.json([]);
+  return new Response(JSON.stringify([]), { headers });
 }
 
 export async function onRequestPost(context: any) {

@@ -181,7 +181,7 @@ export default function BookingPage() {
   /* Load bookings */
   const fetchBookings = useCallback(async (date: Date, courtId: string) => {
     try {
-      const res = await fetch(`/api/bookings?date=${fmtDate(date)}&courtId=${courtId}`);
+      const res = await fetch(`/api/bookings?date=${fmtDate(date)}&courtId=${courtId}`, { cache: 'no-store' });
       const data = (await res.json()) as any;
       setBookings(Array.isArray(data) ? data : []);
     } catch { setBookings([]); }
