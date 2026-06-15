@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 function getCloudflareDB(): any | null {
   try {
-    if (typeof process !== 'undefined' && (process.env as any).DB) {
-      return (process.env as any).DB;
-    }
+    const ctx = getRequestContext();
+    if (ctx && ctx.env && (ctx.env as any).DB) return (ctx.env as any).DB;
   } catch { /* noop */ }
   
   try {
