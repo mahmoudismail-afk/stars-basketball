@@ -21,12 +21,15 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [courts, setCourts] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'history' | 'cancelled'>('upcoming');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Load password from session storage on mount
   useEffect(() => {
+    fetch('/api/courts').then(r => r.json()).then(setCourts).catch(() => {});
+    
     const saved = sessionStorage.getItem('admin_token');
     if (saved) {
       setPassword(saved);
@@ -267,7 +270,7 @@ export default function AdminPage() {
                             <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '2px' }}>({b.duration} mins)</div>
                           </td>
                           <td style={{ padding: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                            {b.court_id.replace('court-', 'Court ')}
+                            {courts.find(c => c.id === b.court_id)?.name || b.court_id}
                           </td>
                           <td style={{ padding: '1rem', fontSize: '0.9rem' }}>
                             <div style={{ fontWeight: 600, textDecoration: b.status === 'cancelled' ? 'line-through' : 'none' }}>{b.player_name}</div>
