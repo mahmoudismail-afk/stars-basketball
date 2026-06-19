@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 /* ─── Types ──────────────────────────────────────────── */
 interface Court { id: string; name: string; type: string; }
@@ -272,12 +273,15 @@ export default function BookingPage() {
 
       {/* Nav */}
       <nav className="navbar">
-        <Link href="/" className="text-gradient" style={{ fontSize: '1.15rem', fontWeight: 800, letterSpacing: '-0.01em' }}>
-          ARENA PADEL
-        </Link>
-        <Link href="/" style={{ color: 'var(--neon-blue)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
-          ← Home
-        </Link>
+        <div style={{ fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.02em' }}>
+          Arena<span style={{ color: 'var(--neon-green)' }}>Padel</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <ThemeToggle />
+          <Link href="/" className="btn-neon" style={{ padding: '0.4rem 1rem', fontSize: '0.8rem', minHeight: '36px' }}>
+            Home
+          </Link>
+        </div>
       </nav>
 
       <div className={`container ${step === 'calendar' && selectedDate && selectedStartIdx !== null ? 'has-bottom-cta' : step === 'form' ? 'has-bottom-cta' : ''}`}
@@ -549,7 +553,7 @@ export default function BookingPage() {
                                   ? <span className="block-status-icon" style={{ color: 'rgba(255,140,0,0.8)' }}>Blocked ⊘</span>
                                   : status === 'selected-conflict'
                                     ? <span className="block-status-icon" style={{ color: '#ff8c00' }}>⚠ Conflict</span>
-                                    : <span className="block-status-icon" style={{ color: 'var(--text-muted)', opacity: 0.5 }}>Available</span>
+                                    : <span className="block-status-icon" style={{ color: 'var(--neon-blue)', opacity: 0.8 }}>Available</span>
                             }
                           </span>
                         </div>

@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Home() {
   return (
@@ -17,11 +18,14 @@ export default function Home() {
           <Link href="#faq">FAQ</Link>
           <Link href="#contact">Contact</Link>
         </div>
-        <Link href="/book">
-          <button id="nav-book-btn" className="btn-neon" style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem', minHeight: '40px' }}>
-            Book Now
-          </button>
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <ThemeToggle />
+          <Link href="/book">
+            <button id="nav-book-btn" className="btn-neon" style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem', minHeight: '40px' }}>
+              Book Now
+            </button>
+          </Link>
+        </div>
       </nav>
 
       {/* ─── Hero ─── */}

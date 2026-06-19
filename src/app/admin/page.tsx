@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface Booking {
   id: string; court_id: string; player_name: string; player_phone: string;
@@ -115,9 +116,9 @@ export default function AdminPage() {
                 required
                 style={{
                   width: '100%',
-                  background: 'var(--surface-light)',
+                  background: 'var(--surface)',
                   border: '1px solid var(--border-color)',
-                  color: 'white',
+                  color: 'var(--text-primary)',
                   padding: '0.85rem 1rem',
                   borderRadius: 'var(--border-radius-sm)',
                   fontSize: '1rem',
@@ -187,7 +188,8 @@ export default function AdminPage() {
         <h1 style={{ fontSize: '1.8rem', margin: 0 }}>
           Admin <span className="text-gradient">Dashboard</span>
         </h1>
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <ThemeToggle />
           <button onClick={() => fetchBookings(password)} className="btn-neon" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>Refresh</button>
           <button onClick={logout} className="btn-neon" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', borderColor: 'rgba(255,80,80,0.5)', color: '#ff7070' }}>Logout</button>
         </div>

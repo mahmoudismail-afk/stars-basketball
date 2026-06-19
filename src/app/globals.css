@@ -8,19 +8,20 @@
 
 /* ─── DESIGN TOKENS ─────────────────────────────────── */
 :root {
-  --background: #0f1115;
-  --surface: #1a1d24;
-  --surface-hover: #232730;
-  --surface-2: #20232b;
+  /* LIGHT MODE (Default) */
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --surface-2: #f3f4f6;
 
-  --text-primary: #ffffff;
-  --text-secondary: #a0a5b1;
-  --text-muted: #6b7280;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
 
-  --neon-green: #39ff14;
-  --neon-blue: #00f3ff;
+  --neon-green: #16a34a; /* Darker green for visibility on light bg */
+  --neon-blue: #0284c7;  /* Darker blue for visibility on light bg */
 
-  --border-color: #2d3139;
+  --border-color: #e2e8f0;
   --border-radius-xs: 6px;
   --border-radius-sm: 10px;
   --border-radius-md: 14px;
@@ -37,6 +38,39 @@
   --nav-height: 60px;
   /* Bottom bar safe area */
   --bottom-bar-height: 72px;
+
+  /* Glass Card */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+
+  /* Navbar */
+  --nav-bg: rgba(255, 255, 255, 0.92);
+}
+
+.dark {
+  /* DARK MODE */
+  --background: #0f1115;
+  --surface: #1a1d24;
+  --surface-hover: #232730;
+  --surface-2: #20232b;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a5b1;
+  --text-muted: #6b7280;
+
+  --neon-green: #39ff14;
+  --neon-blue: #00f3ff;
+
+  --border-color: #2d3139;
+
+  /* Glass Card */
+  --glass-bg: rgba(26, 29, 36, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+
+  /* Navbar */
+  --nav-bg: rgba(15, 17, 21, 0.92);
 }
 
 /* ─── RESET ─────────────────────────────────────────── */
@@ -169,13 +203,13 @@ input, select, textarea {
 
 /* ─── GLASS CARD ────────────────────────────────────── */
 .glass-card {
-  background: rgba(26,29,36,0.8);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
   border-radius: var(--border-radius-md);
   padding: 1.25rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  box-shadow: var(--glass-shadow);
 }
 
 @media (min-width: 640px) {
@@ -230,7 +264,7 @@ select.input-dark option {
   left: 0;
   right: 0;
   z-index: 200;
-  background: rgba(15,17,21,0.92);
+  background: var(--nav-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
@@ -406,7 +440,7 @@ select.input-dark option {
   right: 0;
   z-index: 150;
   padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
-  background: rgba(15,17,21,0.97);
+  background: var(--nav-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-color);
